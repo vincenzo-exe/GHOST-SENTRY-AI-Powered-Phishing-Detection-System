@@ -1,0 +1,69 @@
+# ════════════════════════════════════════════════════════════════
+# Ghost Sentry — Requirements
+# ════════════════════════════════════════════════════════════════
+
+# ── Core / Async ───────────────────────────────────────────────
+aiohttp>=3.9.5
+aiofiles>=23.2.1
+
+# ── ML / NLP ───────────────────────────────────────────────────
+torch>=2.1.0
+transformers>=4.40.0
+sentence-transformers>=2.7.0
+scikit-learn>=1.4.0
+
+# ── ChromaDB / Vector DB ──────────────────────────────────────
+chromadb>=0.5.0
+
+# ── URL / DNS / Threat Intelligence ───────────────────────────
+python-whois>=0.9.4
+dnspython>=2.6.1
+tldextract>=5.1.2
+requests>=2.32.3
+
+# ── QR Code Detection ─────────────────────────────────────────
+pyzbar>=0.1.9
+Pillow>=10.3.0
+opencv-python>=4.10.0.84
+
+# ── Attachment Analysis ───────────────────────────────────────
+oletools>=0.60.2
+PyMuPDF>=1.24.0
+python-magic>=0.4.27
+pdfplumber>=0.11.0
+
+# ── Database / Cache ──────────────────────────────────────────
+psycopg2-binary>=2.9.9
+redis>=5.0.4
+
+# ── LLM / AI Inference ────────────────────────────────────────
+groq>=0.5.0
+
+# ── Email / MIME Parsing ──────────────────────────────────────
+mail-parser>=3.15.0
+beautifulsoup4>=4.12.3
+lxml>=5.2.2
+
+# ── Security / Homoglyph Detection ────────────────────────────
+confusable-homoglyphs>=3.3.1
+python-Levenshtein>=0.25.1
+
+# ── Environment / Utilities ───────────────────────────────────
+python-dotenv>=1.0.1
+numpy>=1.26.4
+pandas>=2.2.2
+tqdm>=4.66.4
+
+# ── FastAPI Dashboard (future) ────────────────────────────────
+fastapi>=0.111.0
+uvicorn>=0.30.0
+jinja2>=3.1.4
+websockets>=12.0
+
+# For QR extraction
+pyzbar==0.1.9
+Pillow==10.0.0
+
+# For ChromaDB (already there)
+chromadb==0.4.22
+sentence-transformers==2.2.2
