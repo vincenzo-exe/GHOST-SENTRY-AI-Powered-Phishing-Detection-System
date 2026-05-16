@@ -29,49 +29,47 @@
 ## 🏗️ Architecture
 
 ```
-┌──────────────────┐
-│   📧 Email Input  │
-└────────┬─────────┘
-         │
-    ┌────▼──────┐
-    │  Parallel  │
-    │  Analysis  │
-    └────┬──────┘
-         │
-┌────────┴──────────────┬────────────┐
-│                       │            │
-┌───▼──┐  ┌──────┐  ┌──▼────┐  ┌───▼────┐
-│ Text │  │ URL  │  │  RAG  │  │  BERT  │
-│  20% │  │  30% │  │  20%  │  │  30%   │
-└───┬──┘  └───┬──┘  └──┬────┘  └───┬────┘
-    │         │         │           │
-    └─────────┴─────────┴───────────┘
-                        │
-          ┌─────────────▼────────────┐
-          │      Weighted Fusion     │
-          │       Groq LLM Check     │
-          └─────────────┬────────────┘
-                        │
-          ┌─────────────▼────────────┐
-          │        ✅ VERDICT        |
-          │  CLEAN / SUSPICIOUS /    │
-          │        MALICIOUS         │
-          └──────────────────────────┘
+         ┌──────────────────┐
+         │   📧 Email Input  │
+         └────────┬─────────┘
+                  │
+         ┌────────▼─────────┐
+         │ Parallel Analysis │
+         └────────┬─────────┘
+                  │
+     ┌────────────┼────────────┬────────────┐
+     │            │            │            │
+┌────▼───┐  ┌────▼───┐  ┌────▼───┐  ┌────▼───┐
+│  Text  │  │  URL   │  │  RAG   │  │  BERT  │
+│  20%   │  │  30%   │  │  20%   │  │  30%   │
+└────┬───┘  └────┬───┘  └────┬───┘  └────┬───┘
+     └────────────┴────────────┴────────────┘
+                              │
+               ┌──────────────▼─────────────┐
+               │      Weighted Fusion        │
+               │      + Groq LLM Check       │
+               └──────────────┬─────────────┘
+                              │
+               ┌──────────────▼─────────────┐
+               │          ✅ VERDICT         │
+               │  CLEAN / SUSPICIOUS /       │
+               │         MALICIOUS           │
+               └─────────────────────────────┘
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Component  | Technology               | Purpose              |
-|------------|--------------------------|----------------------|
-| Language   | Python 3.8+              | Core development     |
-| Async      | asyncio                  | Parallel processing  |
-| Vector DB  | ChromaDB 1.5.9           | URL similarity search|
-| Embeddings | Sentence Transformers    | URL vectorization    |
-| ML         | Hugging Face BERT        | Classification       |
-| LLM        | Groq Llama 3.3 70B       | Semantic fallback    |
-| QR Code    | pyzbar + Pillow          | Quishing detection   |
+| Component  | Technology               | Purpose               |
+|------------|--------------------------|-----------------------|
+| Language   | Python 3.8+              | Core development      |
+| Async      | asyncio                  | Parallel processing   |
+| Vector DB  | ChromaDB 1.5.9           | URL similarity search |
+| Embeddings | Sentence Transformers    | URL vectorization     |
+| ML         | Hugging Face BERT        | Classification        |
+| LLM        | Groq Llama 3.3 70B       | Semantic fallback     |
+| QR Code    | pyzbar + Pillow          | Quishing detection    |
 
 ---
 
@@ -115,29 +113,33 @@ python orchestrator.py         # Run orchestrator
 
 **Test Suite: 10 Emails (5 Legitimate + 5 Phishing)**
 
-| Metric          | Result           |
-|-----------------|------------------|
-| Accuracy        | 10/10 (100%)     |
-| False Positives | 0                |
-| False Negatives | 0                |
-| Avg Response Time | 210–315ms      |
-| URL Database    | 11,000+ vectors  |
+| Metric            | Result          |
+|-------------------|-----------------|
+| Accuracy          | 10/10 (100%)    |
+| False Positives   | 0               |
+| False Negatives   | 0               |
+| Avg Response Time | 210–315ms       |
+| URL Database      | 11,000+ vectors |
 
 **Legitimate Emails:**
 
-- ✅ good_001 → Score: 0.074 (CLEAN)
-- ✅ good_002 → Score: 0.073 (CLEAN)
-- ✅ good_003 → Score: 0.130 (CLEAN)
-- ✅ good_004 → Score: 0.110 (CLEAN)
-- ✅ good_005 → Score: 0.122 (CLEAN)
+| Email    | Score | Verdict  |
+|----------|-------|----------|
+| good_001 | 0.074 | ✅ CLEAN |
+| good_002 | 0.073 | ✅ CLEAN |
+| good_003 | 0.130 | ✅ CLEAN |
+| good_004 | 0.110 | ✅ CLEAN |
+| good_005 | 0.122 | ✅ CLEAN |
 
 **Phishing Emails:**
 
-- 🟡 bad_001 → Score: 0.493 (SUSPICIOUS)
-- 🟡 bad_002 → Score: 0.449 (SUSPICIOUS)
-- 🟡 bad_003 → Score: 0.437 (SUSPICIOUS)
-- 🟡 bad_004 → Score: 0.476 (SUSPICIOUS)
-- 🟠 bad_005 → Score: 0.394 (LOW_SUSPICION)
+| Email   | Score | Verdict          |
+|---------|-------|------------------|
+| bad_001 | 0.493 | 🟡 SUSPICIOUS    |
+| bad_002 | 0.449 | 🟡 SUSPICIOUS    |
+| bad_003 | 0.437 | 🟡 SUSPICIOUS    |
+| bad_004 | 0.476 | 🟡 SUSPICIOUS    |
+| bad_005 | 0.394 | 🟠 LOW_SUSPICION |
 
 ---
 
@@ -202,7 +204,7 @@ GHOST-SENTRY/
 │   ├── links_db.py              # Build URLHaus database (11,000+ URLs)
 │   ├── chroma_rag.py            # ChromaDB query engine
 │   ├── url_pipeline.py          # URL + QR analysis
-│   └── qr_extractor.py          # QR code extraction
+│   └── qr_extractor.py         # QR code extraction
 │
 ├── models/
 │   └── distilbert_classifier.py # BERT classifier
@@ -222,13 +224,15 @@ GHOST-SENTRY/
 
 ## 🎯 What It Detects
 
-- **Typosquatting** → `paypa1.com` vs `paypal.com`
-- **Domain Impersonation** → `paypal-secure.com` masquerading as PayPal
-- **Homoglyph Attacks** → Unicode lookalikes (`е` vs `e`)
-- **QR Phishing** → Malicious QR codes in emails
-- **Urgency Language** → "Account suspended," "24-hour deadline"
-- **Suspicious TLDs** → `.tk`, `.xyz`, `.top`
-- **IP-Based URLs** → `192.168.1.1/paypal`
+| Attack Type          | Example                                    |
+|----------------------|--------------------------------------------|
+| Typosquatting        | `paypa1.com` vs `paypal.com`               |
+| Domain Impersonation | `paypal-secure.com` masquerading as PayPal |
+| Homoglyph Attacks    | Unicode lookalikes (`е` vs `e`)            |
+| QR Phishing          | Malicious QR codes embedded in emails      |
+| Urgency Language     | "Account suspended," "24-hour deadline"    |
+| Suspicious TLDs      | `.tk`, `.xyz`, `.top`                      |
+| IP-Based URLs        | `192.168.1.1/paypal`                       |
 
 ---
 
@@ -257,12 +261,12 @@ weights = {
 
 ### Verdict Thresholds
 
-| Score    | Verdict       |
-|----------|---------------|
-| ≥ 0.50   | MALICIOUS     |
-| ≥ 0.30   | SUSPICIOUS    |
-| ≥ 0.15   | LOW_SUSPICION |
-| < 0.15   | CLEAN         |
+| Score  | Verdict       |
+|--------|---------------|
+| ≥ 0.50 | MALICIOUS     |
+| ≥ 0.30 | SUSPICIOUS    |
+| ≥ 0.15 | LOW_SUSPICION |
+| < 0.15 | CLEAN         |
 
 ---
 
@@ -292,14 +296,14 @@ python tools/links_db.py
 # Preload models for fast demo (run before presentation)
 python warmup.py
 
-# Run full test (5 good + 5 bad hardcoded emails)
-python test_10_emails.py full
-
 # Run quick test (1 good + 1 bad)
 python test_10_emails.py quick
 
 # Run random test (5 legitimate + 5 random URLs from ChromaDB)
 python test_random_emails.py
+
+# Run random test with custom count
+python test_random_emails.py random 10   # 10 random phishing URLs
 
 # Run quick random test (1 random phishing URL)
 python test_random_emails.py quick
@@ -315,13 +319,13 @@ python orchestrator.py
 
 ## ❓ Troubleshooting
 
-| Issue                    | Fix                                        |
-|--------------------------|--------------------------------------------|
-| ChromaDB shows 0 URLs    | Run `python tools/links_db.py`             |
-| Groq 401 error           | Verify API key in `.env`                   |
-| Slow performance         | Reduce URL limit in `links_db.py`          |
-| Import errors            | Run `pip install -r requirements.txt`      |
-| QR extraction fails      | Run `pip install pillow pyzbar`            |
+| Issue                 | Fix                                   |
+|-----------------------|---------------------------------------|
+| ChromaDB shows 0 URLs | Run `python tools/links_db.py`        |
+| Groq 401 error        | Verify API key in `.env`              |
+| Slow performance      | Reduce URL limit in `links_db.py`     |
+| Import errors         | Run `pip install -r requirements.txt` |
+| QR extraction fails   | Run `pip install pillow pyzbar`       |
 
 ---
 
