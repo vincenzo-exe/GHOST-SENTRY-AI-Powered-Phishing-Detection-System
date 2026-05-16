@@ -46,15 +46,15 @@
      └────────────┴────────────┴────────────┘
                               │
                ┌──────────────▼─────────────┐
-               │      Weighted Fusion        │
-               │      + Groq LLM Check       │
+               │      Weighted Fusion       │
+               │      + Groq LLM Check      │
                └──────────────┬─────────────┘
                               │
                ┌──────────────▼─────────────┐
-               │          ✅ VERDICT         │
-               │  CLEAN / SUSPICIOUS /       │
-               │         MALICIOUS           │
-               └─────────────────────────────┘
+               │          ✅ VERDICT        │
+               │  CLEAN / SUSPICIOUS /      │
+               │         MALICIOUS          │
+               └────────────────────────────┘
 ```
 
 ---
