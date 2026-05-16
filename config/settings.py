@@ -16,7 +16,7 @@ class Settings:
     DB_HOST = os.getenv("DB_HOST", "localhost")
     DB_PORT = int(os.getenv("DB_PORT", 5432))
     DB_USER = os.getenv("DB_USER", "postgres")
-    DB_PASSWORD = os.getenv("DB_PASSWORD", "azizaziz")  # ← Added default
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "azizaziz")
     DB_NAME = os.getenv("DB_NAME", "ghost_sentry")
     
     # Redis
@@ -28,11 +28,16 @@ class Settings:
     SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
     SMTP_USER = os.getenv("SMTP_USER")
     SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
-    ALERT_EMAIL = os.getenv("ALERT_EMAIL", "alerts@ghostsentry.com")  # ← Added default
-    ALERT_RECIPIENT = os.getenv("ALERT_RECIPIENT", "admin@ghostsentry.com")  # ← ADD THIS
+    ALERT_EMAIL = os.getenv("ALERT_EMAIL", "alerts@ghostsentry.com")
+    ALERT_RECIPIENT = os.getenv("ALERT_RECIPIENT", "admin@ghostsentry.com")
     
     # Groq LLM
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    
+    # BERT Model Configuration
+    MODEL_MAX_LENGTH = 512           # ← AJOUTE
+    MODEL_PATH = "models/distilbert_phishing"  # ← AJOUTE
+    MODEL_NAME = "distilbert-base-uncased"      # ← AJOUTE
     
     # Scoring
     SCORE_WEIGHTS = {

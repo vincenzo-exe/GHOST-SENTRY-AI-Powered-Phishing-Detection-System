@@ -1,8 +1,3 @@
-"""
-orchestrator.py — Ghost Sentry Main Orchestrator
-Complete with JSON output and corrected phishing thresholds
-"""
-
 import asyncio
 import logging
 import time

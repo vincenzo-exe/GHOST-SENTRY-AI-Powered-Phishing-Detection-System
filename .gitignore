@@ -1,0 +1,100 @@
+# ============================================
+# GHOST SENTRY - .gitignore
+# ============================================
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Environment Variables (.env contains sensitive data)
+.env
+.env.local
+.env.*.local
+
+# Data Files (large databases)
+data/chromadb/
+data/feeds/
+*.db
+*.sqlite3
+*.sqlite
+
+# Logs
+*.log
+logs/
+error_logs/
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Test Results (optional - keep if you want to share results)
+# test_results_*.json
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Coverage Reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Large files (>100MB)
+*.parquet
+*.h5
+*.pkl
+*.joblib

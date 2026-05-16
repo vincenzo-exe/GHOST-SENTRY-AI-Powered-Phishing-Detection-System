@@ -2,7 +2,6 @@
 ## AI-Powered Real-Time Phishing Detection System
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Groq](https://img.shields.io/badge/Groq-LLM-orange.svg)](https://groq.com)
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector-yellow.svg)](https://chromadb.com)
 
@@ -31,66 +30,68 @@
 
 ```
 ┌──────────────────┐
-│  📧 Email Input  │
+│   📧 Email Input  │
 └────────┬─────────┘
          │
     ┌────▼──────┐
-    │ Parallel  │
-    │ Analysis  │
+    │  Parallel  │
+    │  Analysis  │
     └────┬──────┘
          │
-    ┌────┴──────────────┬────────────┐
-    │                   │            │
+┌────────┴──────────────┬────────────┐
+│                       │            │
 ┌───▼──┐  ┌──────┐  ┌──▼────┐  ┌───▼────┐
 │ Text │  │ URL  │  │  RAG  │  │  BERT  │
-│ 20%  │  │ 30%  │  │  20%  │  │  30%   │
+│  20% │  │  30% │  │  20%  │  │  30%   │
 └───┬──┘  └───┬──┘  └──┬────┘  └───┬────┘
-    │         │        │           │
-    └─────────┴────────┴───────────┘
-              │
-    ┌─────────▼────────┐
-    │  Weighted Fusion │
-    │  Groq LLM Check  │
-    └─────────┬────────┘
-              │
-    ┌─────────▼────────┐
-    │ ✅ VERDICT       │
-    │ CLEAN / SUSPICIOUS
-    │ / MALICIOUS      │
-    └──────────────────┘
+    │         │         │           │
+    └─────────┴─────────┴───────────┘
+                        │
+          ┌─────────────▼────────────┐
+          │      Weighted Fusion      │
+          │       Groq LLM Check      │
+          └─────────────┬────────────┘
+                        │
+          ┌─────────────▼────────────┐
+          │        ✅ VERDICT         │
+          │  CLEAN / SUSPICIOUS /     │
+          │        MALICIOUS          │
+          └──────────────────────────┘
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| Language | Python 3.8+ | Core development |
-| Async | asyncio | Parallel processing |
-| Vector DB | ChromaDB 1.5.9 | URL similarity search |
-| Embeddings | Sentence Transformers | URL vectorization |
-| ML | Hugging Face BERT | Classification |
-| LLM | Groq Llama 3.3 70B | Semantic fallback |
-| QR Code | pyzbar + Pillow | Quishing detection |
+| Component  | Technology               | Purpose              |
+|------------|--------------------------|----------------------|
+| Language   | Python 3.8+              | Core development     |
+| Async      | asyncio                  | Parallel processing  |
+| Vector DB  | ChromaDB 1.5.9           | URL similarity search|
+| Embeddings | Sentence Transformers    | URL vectorization    |
+| ML         | Hugging Face BERT        | Classification       |
+| LLM        | Groq Llama 3.3 70B       | Semantic fallback    |
+| QR Code    | pyzbar + Pillow          | Quishing detection   |
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 ```bash
-git clone https://github.com/your-repo/GHOST-SENTRY.git
-cd GHOST-SENTRY
+git clone https://github.com/vincenzo-exe/GHOST-SENTRY-AI-Powered-Phishing-Detection-System.git
+cd GHOST-SENTRY-AI-Powered-Phishing-Detection-System
 python --version  # Ensure Python 3.8+
 ```
 
 ### Installation
+
 ```bash
 # Create virtual environment
 python -m venv .venv
-.venv\Scripts\activate  # Windows
-# source .venv/bin/activate  # Mac/Linux
+.venv\Scripts\activate        # Windows
+# source .venv/bin/activate   # Mac/Linux
 
 # Install dependencies
 pip install -r requirements.txt
@@ -101,10 +102,11 @@ cp .env.example .env
 ```
 
 ### Build & Run
+
 ```bash
-python tools/links_db.py          # Build 11,000+ URL database
-python test_10_emails.py full     # Run test suite
-python orchestrator.py            # Run orchestrator
+python tools/links_db.py       # Build 11,000+ URL database
+python test_10_emails.py full  # Run test suite
+python orchestrator.py         # Run orchestrator
 ```
 
 ---
@@ -113,15 +115,16 @@ python orchestrator.py            # Run orchestrator
 
 **Test Suite: 10 Emails (5 Legitimate + 5 Phishing)**
 
-| Metric | Result |
-|--------|--------|
-| **Accuracy** | 10/10 (100%) |
-| **False Positives** | 0 |
-| **False Negatives** | 0 |
-| **Avg Response Time** | 210–315ms |
-| **URL Database** | 11,000+ vectors |
+| Metric          | Result           |
+|-----------------|------------------|
+| Accuracy        | 10/10 (100%)     |
+| False Positives | 0                |
+| False Negatives | 0                |
+| Avg Response Time | 210–315ms      |
+| URL Database    | 11,000+ vectors  |
 
 **Legitimate Emails:**
+
 - ✅ good_001 → Score: 0.074 (CLEAN)
 - ✅ good_002 → Score: 0.073 (CLEAN)
 - ✅ good_003 → Score: 0.130 (CLEAN)
@@ -129,6 +132,7 @@ python orchestrator.py            # Run orchestrator
 - ✅ good_005 → Score: 0.122 (CLEAN)
 
 **Phishing Emails:**
+
 - 🟡 bad_001 → Score: 0.493 (SUSPICIOUS)
 - 🟡 bad_002 → Score: 0.449 (SUSPICIOUS)
 - 🟡 bad_003 → Score: 0.437 (SUSPICIOUS)
@@ -163,6 +167,7 @@ asyncio.run(check_email())
 ```
 
 **Output:**
+
 ```json
 {
   "uid": "test_002",
@@ -183,27 +188,34 @@ asyncio.run(check_email())
 
 ```
 GHOST-SENTRY/
+│
 ├── orchestrator.py              # Main AI orchestrator
-├── test_10_emails.py            # Test suite (10 emails)
-├── verify_system.py             # System verification
+├── test_10_emails.py            # Test suite (5 good + 5 bad)
+├── test_random_emails.py        # Test with random URLs from ChromaDB
+├── verify_system.py             # Complete system verification
+├── warmup.py                    # Preload models for fast demo
 ├── main.py                      # Entry point
-├── requirements.txt
-├── .env.example
+├── requirements.txt             # Python dependencies
+├── .env.example                 # Configuration template
 │
 ├── tools/
-│   ├── links_db.py              # Build URLHaus database
+│   ├── links_db.py              # Build URLHaus database (11,000+ URLs)
 │   ├── chroma_rag.py            # ChromaDB query engine
 │   ├── url_pipeline.py          # URL + QR analysis
-│   └── text_pipeline.py         # Text analysis
+│   └── qr_extractor.py          # QR code extraction
 │
 ├── models/
-│   └── distilbert_classifier.py
+│   └── distilbert_classifier.py # BERT classifier
 │
 ├── config/
-│   └── settings.py
+│   └── settings.py              # Configuration settings
+│
+├── db/
+│   ├── postgres_logger.py       # PostgreSQL logger (optional)
+│   └── redis_memory.py          # Redis cache (optional)
 │
 └── data/
-    └── chromadb/                # URL vectors (11,000+)
+    └── chromadb/                # 11,000+ URL vectors
 ```
 
 ---
@@ -212,7 +224,7 @@ GHOST-SENTRY/
 
 - **Typosquatting** → `paypa1.com` vs `paypal.com`
 - **Domain Impersonation** → `paypal-secure.com` masquerading as PayPal
-- **Homoglyph Attacks** → Unicode lookalikes (е vs e)
+- **Homoglyph Attacks** → Unicode lookalikes (`е` vs `e`)
 - **QR Phishing** → Malicious QR codes in emails
 - **Urgency Language** → "Account suspended," "24-hour deadline"
 - **Suspicious TLDs** → `.tk`, `.xyz`, `.top`
@@ -223,6 +235,7 @@ GHOST-SENTRY/
 ## ⚙️ Configuration
 
 ### Environment (`.env`)
+
 ```env
 GROQ_API_KEY=gsk_your_key_here
 IMAP_HOST=imap.gmail.com
@@ -232,6 +245,7 @@ IMAP_PASSWORD=your-app-password
 ```
 
 ### Scoring Weights (`orchestrator.py`)
+
 ```python
 weights = {
     "text": 0.20,   # Text analysis
@@ -242,10 +256,13 @@ weights = {
 ```
 
 ### Verdict Thresholds
-- **≥ 0.50** → MALICIOUS
-- **≥ 0.30** → SUSPICIOUS
-- **≥ 0.15** → LOW_SUSPICION
-- **< 0.15** → CLEAN
+
+| Score    | Verdict       |
+|----------|---------------|
+| ≥ 0.50   | MALICIOUS     |
+| ≥ 0.30   | SUSPICIOUS    |
+| ≥ 0.15   | LOW_SUSPICION |
+| < 0.15   | CLEAN         |
 
 ---
 
@@ -269,31 +286,42 @@ python-dotenv==1.2.2
 ## 🔧 Commands
 
 ```bash
-python tools/links_db.py          # Build URL database
-python test_10_emails.py full     # Full test (5 good + 5 bad)
-python test_10_emails.py quick    # Quick test (1 good + 1 bad)
-python test_10_emails.py detail   # Detailed scores
-python verify_system.py           # Verify system
-python orchestrator.py            # Run orchestrator
+# Build URL database (11,000+ phishing URLs)
+python tools/links_db.py
+
+# Preload models for fast demo (run before presentation)
+python warmup.py
+
+# Run full test (5 good + 5 bad hardcoded emails)
+python test_10_emails.py full
+
+# Run quick test (1 good + 1 bad)
+python test_10_emails.py quick
+
+# Run random test (5 legitimate + 5 random URLs from ChromaDB)
+python test_random_emails.py
+
+# Run quick random test (1 random phishing URL)
+python test_random_emails.py quick
+
+# Verify entire system
+python verify_system.py
+
+# Run orchestrator demo
+python orchestrator.py
 ```
 
 ---
 
 ## ❓ Troubleshooting
 
-| Issue | Fix |
-|-------|-----|
-| ChromaDB shows 0 URLs | Run `python tools/links_db.py` |
-| Groq 401 error | Verify API key in `.env` |
-| Slow performance | Reduce URL limit in `links_db.py` |
-| Import errors | Run `pip install -r requirements.txt` |
-| QR extraction fails | Install `pip install pillow pyzbar` |
-
----
-
-## 📄 License
-
-MIT License — See [LICENSE](LICENSE) for details.
+| Issue                    | Fix                                        |
+|--------------------------|--------------------------------------------|
+| ChromaDB shows 0 URLs    | Run `python tools/links_db.py`             |
+| Groq 401 error           | Verify API key in `.env`                   |
+| Slow performance         | Reduce URL limit in `links_db.py`          |
+| Import errors            | Run `pip install -r requirements.txt`      |
+| QR extraction fails      | Run `pip install pillow pyzbar`            |
 
 ---
 

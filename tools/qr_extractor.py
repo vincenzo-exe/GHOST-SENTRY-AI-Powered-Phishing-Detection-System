@@ -2,7 +2,6 @@
 tools/qr_extractor.py — QR Code Extraction from Email Attachments
 Step 3: Extract phishing URLs from QR codes in images
 """
-
 import logging
 import io
 from typing import List, Dict, Optional
